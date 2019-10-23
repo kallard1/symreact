@@ -2,8 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Customer;
 use App\Entity\Invoice;
+use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -73,6 +75,29 @@ class AppFixtures extends Fixture
                     $chrono++;
 
                     $manager->persist($invoice);
+                }
+
+                for ($c = 1; $c <= 15; $c++) {
+                    /** @var Category $category */
+                    $category = new Category();
+
+                    $category->setTitle($faker->sentence(3))
+                             ->setUser($user);
+
+                    $manager->persist($category);
+
+                    for ($p = 0; $p <= mt_rand(1, 30); $p++) {
+                        /** @var Product $product */
+                        $product = new Product();
+
+                        $product->setTitle($faker->sentence(5))
+                                ->setPrice($faker->randomFloat(2, 50, 1500))
+                                ->setDescription($faker->paragraph(3))
+                                ->setCategory($category)
+                                ->setUser($user);
+
+                        $manager->persist($product);
+                    }
                 }
             }
         }
