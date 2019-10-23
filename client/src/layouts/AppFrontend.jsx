@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container} from 'reactstrap';
 
-import '../assets/app.scss';
+import '../assets/scss/app.scss';
 
 import AppNavbar from '../components/AppNavbar';
 

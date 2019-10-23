@@ -2,12 +2,9 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {getCategories} from '../actions/categoryAction';
-
 class HomePage extends Component {
 
   componentDidMount() {
-    this.props.getCategories();
   }
 
   render() {
@@ -19,12 +16,8 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = ({categories}) => ({
-  categories
-});
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getCategories
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
