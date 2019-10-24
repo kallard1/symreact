@@ -8,15 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
- *
- * @ApiResource(
- *     attributes={
- *          "pagination_enabled"=true,
- *          "pagination_items_per_page"=10,
- *          "order": {"price": "asc"}
- *     }
- * )
  */
 class Product
 {
@@ -28,9 +21,14 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
-    private $title;
+    private $name;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
     /**
      * @ORM\Column(type="float")
@@ -38,13 +36,13 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $description;
+    private $enabled;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="products")
+     * @ORM\JoinTable(name="categories_products")
      */
     private $category;
 
@@ -54,28 +52,89 @@ class Product
      */
     private $user;
 
+    /**
+     * Product constructor
+     */
+    public function __construct()
+    {
+        $this->category = new ArrayCollection();
+    }
+
+    /**
+     * Description getId function
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    /**
+     * Description getName function
+     *
+     * @return string|null
+     */
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): self
+    /**
+     * Description setName function
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName(string $name): self
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
+    /**
+     * Description getDescription function
+     *
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Description setDescription function
+     *
+     * @param string $description
+     *
+     * @return $this
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Description getPrice function
+     *
+     * @return float|null
+     */
     public function getPrice(): ?float
     {
         return $this->price;
     }
 
+    /**
+     * Description setPrice function
+     *
+     * @param float $price
+     *
+     * @return $this
+     */
     public function setPrice(float $price): self
     {
         $this->price = $price;
@@ -83,35 +142,87 @@ class Product
         return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * Description getEnabled function
+     *
+     * @return bool|null
+     */
+    public function getEnabled(): ?bool
     {
-        return $this->description;
+        return $this->enabled;
     }
 
-    public function setDescription(?string $description): self
+    /**
+     * Description setEnabled function
+     *
+     * @param bool|null $enabled
+     *
+     * @return $this
+     */
+    public function setEnabled(?bool $enabled): self
     {
-        $this->description = $description;
+        $this->enabled = $enabled;
 
         return $this;
     }
 
-    public function getCategory(): ?Category
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategory(): Collection
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    /**
+     * Description addCategory function
+     *
+     * @param Category $category
+     *
+     * @return $this
+     */
+    public function addCategory(Category $category): self
     {
-        $this->category = $category;
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
 
         return $this;
     }
 
+    /**
+     * Description removeCategory function
+     *
+     * @param Category $category
+     *
+     * @return $this
+     */
+    public function removeCategory(Category $category): self
+    {
+        if ($this->category->contains($category)) {
+            $this->category->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Description getUser function
+     *
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * Description setUser function
+     *
+     * @param User|null $user
+     *
+     * @return $this
+     */
     public function setUser(?User $user): self
     {
         $this->user = $user;

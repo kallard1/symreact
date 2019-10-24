@@ -2,12 +2,10 @@ import React from 'react';
 import {Container} from 'reactstrap';
 
 import '../assets/scss/admin/app.scss';
-import AppNavbar from '../components/admin/AppNavbar';
 
 const AppBackend = ({children}) => {
   return (
     <>
-      <AppNavbar />
       <div className="main-content">
         <div className="header">
           <div className="header-body">

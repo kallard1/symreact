@@ -9,7 +9,7 @@ const AppFrontend = ({children}) => {
   return (
     <div id="app">
       <AppNavbar/>
-      <Container fluid>
+      <Container>
         {children}
       </Container>
     </div>

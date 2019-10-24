@@ -8,9 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
- *
- * @ApiResource
  */
 class Category
 {
@@ -22,39 +21,108 @@ class Category
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=25)
      */
-    private $title;
+    private $label;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category", orphanRemoval=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $products;
+    private $enabled;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="categories")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="category")
+     */
+    private $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
 
+    /**
+     * Description getId function
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    /**
+     * Description getLabel function
+     *
+     * @return string|null
+     */
+    public function getLabel(): ?string
     {
-        return $this->title;
+        return $this->label;
     }
 
-    public function setTitle(string $title): self
+    /**
+     * Description setLabel function
+     *
+     * @param string $label
+     *
+     * @return $this
+     */
+    public function setLabel(string $label): self
     {
-        $this->title = $title;
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Description getEnabled function
+     *
+     * @return bool|null
+     */
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Description setEnabled function
+     *
+     * @param bool|null $enabled
+     *
+     * @return $this
+     */
+    public function setEnabled(?bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Description getUser function
+     *
+     * @return User|null
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * Description setUser function
+     *
+     * @param User|null $user
+     *
+     * @return $this
+     */
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
@@ -71,7 +139,7 @@ class Category
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setCategory($this);
+            $product->addCategory($this);
         }
 
         return $this;
@@ -81,23 +149,8 @@ class Category
     {
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
-            // set the owning side to null (unless already changed)
-            if ($product->getCategory() === $this) {
-                $product->setCategory(null);
-            }
+            $product->removeCategory($this);
         }
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

@@ -1,24 +1,21 @@
+@charset "UTF-8";
+
+$theme-colors: (
+        "blue": #3F83BF
+);
+
 @import "~bootstrap";
 
-.App {
-  text-align: center;
+.container {
+  border: 1px solid #70A8D8;
 }
 
-.App-logo {
-  height: 40vmin;
+h4 {
+  color: #3F83BF;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
+.fa-rotate-45 {
+  -ms-filter:        "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(45deg);
+  transform:         rotate(45deg);
 }

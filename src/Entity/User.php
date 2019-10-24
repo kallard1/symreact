@@ -21,14 +21,14 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
-     * @Groups({"customers_read", "invoices_read"})
+     * @Groups({"customer_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      *
-     * @Groups({"customers_read", "invoices_read"})
+     * @Groups({"customers_read"})
      */
     private $email;
 
@@ -44,16 +44,16 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      *
-     * @Groups({"customers_read", "invoices_read"})
+     * @Groups({"customers_read"})
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      *
-     * @Groups({"customers_read", "invoices_read"})
+     * @Groups({"customers_read"})
      */
     private $lastName;
 
@@ -63,7 +63,12 @@ class User implements UserInterface
     private $customers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="user", orphanRemoval=true)
+     */
+    private $companies;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="user")
      */
     private $categories;
 
@@ -72,23 +77,47 @@ class User implements UserInterface
      */
     private $products;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="user")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
+        $this->companies = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->products = new ArrayCollection();
     }
 
+    /**
+     * Description getId function
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Description getEmail function
+     *
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * Description setEmail function
+     *
+     * @param string $email
+     *
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -118,6 +147,13 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * Description setRoles function
+     *
+     * @param array $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -133,6 +169,13 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
+    /**
+     * Description setPassword function
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -157,11 +200,23 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * Description getFirstName function
+     *
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    /**
+     * Description setFirstName function
+     *
+     * @param string $firstName
+     *
+     * @return $this
+     */
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -169,11 +224,23 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * Description getLastName function
+     *
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * Description setLastName function
+     *
+     * @param string $lastName
+     *
+     * @return $this
+     */
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
@@ -206,6 +273,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($customer->getUser() === $this) {
                 $customer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Company[]
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Company $company): self
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies[] = $company;
+            $company->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Company $company): self
+    {
+        if ($this->companies->contains($company)) {
+            $this->companies->removeElement($company);
+            // set the owning side to null (unless already changed)
+            if ($company->getUser() === $this) {
+                $company->setUser(null);
             }
         }
 
@@ -270,6 +368,18 @@ class User implements UserInterface
                 $product->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

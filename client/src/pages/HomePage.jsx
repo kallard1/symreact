@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class HomePage extends Component {
 
