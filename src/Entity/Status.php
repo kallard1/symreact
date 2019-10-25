@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,30 +19,37 @@ class Status
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=50)
      */
     private $label;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="status", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="statuses")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
-
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
+    /**
+     * @param string $label
+     *
+     * @return $this
+     */
     public function setLabel(string $label): self
     {
         $this->label = $label;
@@ -53,32 +58,21 @@ class Status
     }
 
     /**
-     * @return Collection|User[]
+     * @return User|null
      */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    /**
+     * @param User|null $user
+     *
+     * @return $this
+     */
+    public function setUser(?User $user): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setStatus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getStatus() === $this) {
-                $user->setStatus(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

@@ -78,17 +78,26 @@ class User implements UserInterface
     private $products;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="user")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="App\Entity\Status", mappedBy="user", orphanRemoval=true)
      */
-    private $status;
+    private $statuses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="user")
+     */
+    private $invoices;
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->customers = new ArrayCollection();
         $this->companies = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->statuses = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
     }
 
     /**
@@ -256,6 +265,11 @@ class User implements UserInterface
         return $this->customers;
     }
 
+    /**
+     * @param Customer $customer
+     *
+     * @return $this
+     */
     public function addCustomer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
@@ -266,6 +280,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Customer $customer
+     *
+     * @return $this
+     */
     public function removeCustomer(Customer $customer): self
     {
         if ($this->customers->contains($customer)) {
@@ -287,6 +306,11 @@ class User implements UserInterface
         return $this->companies;
     }
 
+    /**
+     * @param Company $company
+     *
+     * @return $this
+     */
     public function addCompany(Company $company): self
     {
         if (!$this->companies->contains($company)) {
@@ -297,6 +321,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Company $company
+     *
+     * @return $this
+     */
     public function removeCompany(Company $company): self
     {
         if ($this->companies->contains($company)) {
@@ -318,6 +347,11 @@ class User implements UserInterface
         return $this->categories;
     }
 
+    /**
+     * @param Category $category
+     *
+     * @return $this
+     */
     public function addCategory(Category $category): self
     {
         if (!$this->categories->contains($category)) {
@@ -328,6 +362,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Category $category
+     *
+     * @return $this
+     */
     public function removeCategory(Category $category): self
     {
         if ($this->categories->contains($category)) {
@@ -349,6 +388,11 @@ class User implements UserInterface
         return $this->products;
     }
 
+    /**
+     * @param Product $product
+     *
+     * @return $this
+     */
     public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
@@ -359,6 +403,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Product $product
+     *
+     * @return $this
+     */
     public function removeProduct(Product $product): self
     {
         if ($this->products->contains($product)) {
@@ -372,14 +421,64 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getStatus(): ?Status
+    /**
+     * @return Collection|Status[]
+     */
+    public function getStatuses(): Collection
     {
-        return $this->status;
+        return $this->statuses;
     }
 
-    public function setStatus(?Status $status): self
+    public function addStatus(Status $status): self
     {
-        $this->status = $status;
+        if (!$this->statuses->contains($status)) {
+            $this->statuses[] = $status;
+            $status->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatus(Status $status): self
+    {
+        if ($this->statuses->contains($status)) {
+            $this->statuses->removeElement($status);
+            // set the owning side to null (unless already changed)
+            if ($status->getUser() === $this) {
+                $status->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoices->contains($invoice)) {
+            $this->invoices[] = $invoice;
+            $invoice->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoices->contains($invoice)) {
+            $this->invoices->removeElement($invoice);
+            // set the owning side to null (unless already changed)
+            if ($invoice->getUser() === $this) {
+                $invoice->setUser(null);
+            }
+        }
 
         return $this;
     }

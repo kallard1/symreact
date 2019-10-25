@@ -25,7 +25,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
         foreach ($users as $user) {
             /** @var Category $categories */
-            $categories = $manager->getRepository(Category::class)->findBy(['user' => $user]);
+            $categories = $manager->getRepository(Category::class)->findBy(['user' => $user, 'enabled' => true]);
 
             foreach ($categories as $category) {
                 for ($i = 1; $i < mt_rand(self::MIN, self::MAX); $i++) {
@@ -36,6 +36,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
                             ->setDescription($faker->paragraph(3))
                             ->setPrice($faker->randomFloat(2, 50))
                             ->setUser($user)
+                            ->setEnabled(mt_rand(0, 1))
                             ->addCategory($category);
 
                     $manager->persist($product);
