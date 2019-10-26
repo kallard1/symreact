@@ -4,17 +4,21 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  *
  * @ApiResource(
+ *     collectionOperations={"GET", "POST"},
+ *     itemOperations={"GET", "PUT"},
  *     normalizationContext={
  *      "groups": {"customers_read"}
  *     }
@@ -36,6 +40,9 @@ class Customer
      * @ORM\Column(type="string", length=50)
      *
      * @Groups({"customers_read"})
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=50)
      */
     private $firstName;
 
@@ -43,6 +50,9 @@ class Customer
      * @ORM\Column(type="string", length=50)
      *
      * @Groups({"customers_read"})
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=50)
      */
     private $lastName;
 
@@ -50,6 +60,9 @@ class Customer
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"customers_read"})
+     *
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -58,17 +71,23 @@ class Customer
      * @ORM\JoinColumn(nullable=false)
      *
      * @Groups({"customers_read"})
+     *
+     * @Assert\NotNull()
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\NotNull()
      */
     private $company;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer")
+     *
+     * @ApiSubresource()
      */
     private $invoices;
 

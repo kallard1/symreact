@@ -6,10 +6,20 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceRepository")
+ *
+ * @ApiResource(
+ *     subresourceOperations={
+ *       "api_customers_invoices_get_subresource"={
+ *         "normalization_context"={"groups"={"invoices_subresource"}}
+ *       }
+ *     },
+ *     denormalizationContext={"disable_type_enforcement"=true}
+ * )
  */
 class Invoice
 {
@@ -17,47 +27,72 @@ class Invoice
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"invoices_subresource"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=6)
+     *
+     * @Groups({"invoices_subresource"})
+     *
+     * @Assert\NotBlank
+     * @Assert\Type(type="string")
      */
     private $count;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Product")
+     *
+     * @Groups({"invoices_subresource"})
      */
     private $products;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="invoices")
+     *
+     * @Assert\NotNull()
      */
     private $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Status")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups({"invoices_subresource"})
+     *
+     * @Assert\NotNull()
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"invoices_subresource"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"invoices_subresource"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @Groups({"invoices_subresource"})
+     *
+     * @Assert\Date()
      */
     private $sentAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invoices")
+     *
+     * @Assert\NotNull()
      */
     private $user;
 

@@ -8,8 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ *
+ * @ApiResource
  */
 class Category
 {
@@ -40,6 +41,9 @@ class Category
      */
     private $products;
 
+    /**
+     * Category constructor.
+     */
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -135,6 +139,11 @@ class Category
         return $this->products;
     }
 
+    /**
+     * @param Product $product
+     *
+     * @return $this
+     */
     public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
@@ -145,6 +154,11 @@ class Category
         return $this;
     }
 
+    /**
+     * @param Product $product
+     *
+     * @return $this
+     */
     public function removeProduct(Product $product): self
     {
         if ($this->products->contains($product)) {
