@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
 use App\Entity\User;
+use DateTime;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -104,8 +105,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
 
-            $invoice->setCreatedAt(new \DateTime());
         if ($invoice instanceof Invoice && $method === 'POST') {
+            $invoice->setCreatedAt(new DateTime());
         }
     }
 
@@ -121,8 +122,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
 
-            $invoice->setUpdatedAt(new \DateTime());
         if ($invoice instanceof Invoice && $method === 'POST') {
+            $invoice->setUpdatedAt(new DateTime());
         }
     }
 }
