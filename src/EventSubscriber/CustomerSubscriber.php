@@ -12,6 +12,11 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Class CustomerSubscriber
+ *
+ * @package App\EventSubscriber
+ */
 class CustomerSubscriber implements EventSubscriberInterface
 {
     /** @var Security $security */

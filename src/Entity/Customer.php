@@ -91,6 +91,9 @@ class Customer
      */
     private $invoices;
 
+    /**
+     * Customer constructor.
+     */
     public function __construct()
     {
         $this->invoices = new ArrayCollection();
@@ -234,6 +237,11 @@ class Customer
         return $this->invoices;
     }
 
+    /**
+     * @param Invoice $invoice
+     *
+     * @return $this
+     */
     public function addInvoice(Invoice $invoice): self
     {
         if (!$this->invoices->contains($invoice)) {
@@ -244,6 +252,11 @@ class Customer
         return $this;
     }
 
+    /**
+     * @param Invoice $invoice
+     *
+     * @return $this
+     */
     public function removeInvoice(Invoice $invoice): self
     {
         if ($this->invoices->contains($invoice)) {

@@ -14,6 +14,11 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class CompanyRepository extends ServiceEntityRepository
 {
+    /**
+     * CompanyRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Company::class);

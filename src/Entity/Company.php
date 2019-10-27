@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
  *
  * @ApiResource
@@ -38,6 +37,9 @@ class Company
      */
     private $customers;
 
+    /**
+     * Company constructor.
+     */
     public function __construct()
     {
         $this->customers = new ArrayCollection();
@@ -109,6 +111,11 @@ class Company
         return $this->customers;
     }
 
+    /**
+     * @param Customer $customer
+     *
+     * @return $this
+     */
     public function addCustomer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
@@ -119,6 +126,11 @@ class Company
         return $this;
     }
 
+    /**
+     * @param Customer $customer
+     *
+     * @return $this
+     */
     public function removeCustomer(Customer $customer): self
     {
         if ($this->customers->contains($customer)) {

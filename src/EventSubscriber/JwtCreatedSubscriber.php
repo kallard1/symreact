@@ -7,6 +7,11 @@ namespace App\EventSubscriber;
 use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
+/**
+ * Class JwtCreatedSubscriber
+ *
+ * @package App\EventSubscriber
+ */
 class JwtCreatedSubscriber
 {
     /**

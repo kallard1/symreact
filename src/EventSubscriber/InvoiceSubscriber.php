@@ -10,6 +10,11 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Class InvoiceSubscriber
+ *
+ * @package App\EventSubscriber
+ */
 class InvoiceSubscriber implements EventSubscriberInterface
 {
     /** @var Security $security */
@@ -87,6 +92,11 @@ class InvoiceSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param ViewEvent $event
+     *
+     * @throws \Exception
+     */
     public function setCreatedAt(ViewEvent $event)
     {
         /** @var Invoice $invoice */
@@ -99,6 +109,11 @@ class InvoiceSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * @param ViewEvent $event
+     *
+     * @throws \Exception
+     */
     public function setUpdatedAt(ViewEvent $event)
     {
         /** @var Invoice $invoice */

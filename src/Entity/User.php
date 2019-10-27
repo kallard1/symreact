@@ -160,6 +160,8 @@ class User implements UserInterface
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     *
+     * @return string
      */
     public function getUsername(): string
     {
@@ -168,6 +170,8 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return mixed[]
      */
     public function getRoles(): array
     {
@@ -194,6 +198,8 @@ class User implements UserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return string
      */
     public function getPassword(): string
     {
@@ -451,6 +457,11 @@ class User implements UserInterface
         return $this->statuses;
     }
 
+    /**
+     * @param Status $status
+     *
+     * @return $this
+     */
     public function addStatus(Status $status): self
     {
         if (!$this->statuses->contains($status)) {
@@ -461,6 +472,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Status $status
+     *
+     * @return $this
+     */
     public function removeStatus(Status $status): self
     {
         if ($this->statuses->contains($status)) {
@@ -482,6 +498,11 @@ class User implements UserInterface
         return $this->invoices;
     }
 
+    /**
+     * @param Invoice $invoice
+     *
+     * @return $this
+     */
     public function addInvoice(Invoice $invoice): self
     {
         if (!$this->invoices->contains($invoice)) {
@@ -492,6 +513,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Invoice $invoice
+     *
+     * @return $this
+     */
     public function removeInvoice(Invoice $invoice): self
     {
         if ($this->invoices->contains($invoice)) {
@@ -505,11 +531,19 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getInvoiceCounter(): ?int
     {
         return $this->invoiceCounter;
     }
 
+    /**
+     * @param int $invoiceCounter
+     *
+     * @return $this
+     */
     public function setInvoiceCounter(int $invoiceCounter): self
     {
         $this->invoiceCounter = $invoiceCounter;

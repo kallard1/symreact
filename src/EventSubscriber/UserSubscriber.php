@@ -11,6 +11,11 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class UserSubscriber
+ *
+ * @package App\EventSubscriber
+ */
 class UserSubscriber implements EventSubscriberInterface
 {
     /**
