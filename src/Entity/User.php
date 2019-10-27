@@ -105,6 +105,11 @@ class User implements UserInterface
     private $invoices;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $invoiceCounter = 0;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -496,6 +501,18 @@ class User implements UserInterface
                 $invoice->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInvoiceCounter(): ?int
+    {
+        return $this->invoiceCounter;
+    }
+
+    public function setInvoiceCounter(int $invoiceCounter): self
+    {
+        $this->invoiceCounter = $invoiceCounter;
 
         return $this;
     }
