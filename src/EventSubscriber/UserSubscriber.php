@@ -47,7 +47,7 @@ class UserSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param $event
+     * @param ViewEvent $event
      */
     public function encodePassword(ViewEvent $event)
     {

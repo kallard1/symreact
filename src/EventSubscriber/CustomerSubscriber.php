@@ -25,7 +25,7 @@ class CustomerSubscriber implements EventSubscriberInterface
     /**
      * CustomerSubscriber constructor.
      *
-     * @param $security
+     * @param Security $security
      */
     public function __construct(
         Security $security
