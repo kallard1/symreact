@@ -62,13 +62,13 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var User $user */
         $user = $this->security->getUser();
 
-        if ($invoice instanceof Invoice && $method === "POST") {
+        if ($invoice instanceof Invoice && $method === 'POST') {
             /** @var integer $count */
             $count = $user->getInvoiceCounter() + 1;
             /** @var string $invoiceNumber */
-            $invoiceNumber = str_pad((string)$count, 5, "0", STR_PAD_LEFT);
+            $invoiceNumber = str_pad((string) $count, 5, '0', STR_PAD_LEFT);
 
-            $invoice->setCount("I" . $invoiceNumber);
+            $invoice->setCount('I' . $invoiceNumber);
             $user->setInvoiceCounter($count);
         }
     }
@@ -87,7 +87,7 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var User $user */
         $user = $this->security->getUser();
 
-        if ($invoice instanceof Invoice && $method === "POST") {
+        if ($invoice instanceof Invoice && $method === 'POST') {
             $invoice->setUser($user);
         }
     }
@@ -104,8 +104,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
 
-        if ($invoice instanceof Invoice && $method === "POST") {
             $invoice->setCreatedAt(new \DateTime());
+        if ($invoice instanceof Invoice && $method === 'POST') {
         }
     }
 
@@ -121,8 +121,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
 
-        if ($invoice instanceof Invoice && $method === "POST") {
             $invoice->setUpdatedAt(new \DateTime());
+        if ($invoice instanceof Invoice && $method === 'POST') {
         }
     }
 }

@@ -56,7 +56,7 @@ class UserSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
 
-        if ($user instanceof User && $method === "POST") {
+        if ($user instanceof User && $method === 'POST') {
             /** @var string $hash */
             $hash = $this->encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
