@@ -1,47 +1,71 @@
 parameters:
+    git_hook_variables:
+        EXEC_GRUMPHP_COMMAND: "docker-compose run --rm --no-deps fpm" # https://github.com/phpro/grumphp/blob/master/doc/parameters.md
+    convention.local_directory: "src"
+    convention.whitelist_patterns:
+        - /^src\/(.*)/
+    convention.git_commit_message_matchers:
+        commit message pattern: /^(?:Merge remote.+)|^(?:Merge branch.+)|^(?:all|[a-z]{1,}[-][0-9]{1,}|[a-zA-Z]{1,}|[a-zA-Z0-9\-]{1,})(?:[:][[:space:]])(?:.+)$/
+    convention.git_branch_name_whitelist:
+        - /^((?P<environment>master|preproduction|staging|development|develop)|((?P<prefix>feature|hotfix|release)\/(?P<type>[a-z0-9.]{1,})(?:[\_](?P<ticket>[a-z0-9]{1,})){0,}$))$/
+    convention.git_branch_name_blacklist:
+        - master
+        - staging
+        - /^preprod(.*)/
+        - /^develop(.*)/
+    convention.phpcs_standard:
+        - "./utils/libraries/phpcs/ruleset.xml" # Path need to be ../../ regarding Composer autoloading
+    convention.phpmd_standard: "./utils/libraries/phpmd/ruleset.xml" # Path need to be ../../ regarding Composer autoloading
     git_dir: .
     bin_dir: vendor/bin
+    stop_on_failure: true
+    hide_circumvention_tip: true
+    ascii:
+        failed: ~
+        succeeded: grumphp-happy.txt
     tasks:
+        phpmd:
+            whitelist_patterns: "%convention.whitelist_patterns%"
+            exclude: [Kernel.php, DataFixtures/*, Migrations/*]
+            ruleset: ["%convention.phpmd_standard%"]
+            triggered_by: ['php']
+        git_branch_name:
+            whitelist: "%convention.git_branch_name_whitelist%" # https://regex101.com/r/DaaoT1/5
+            #      blacklist: "%convention.git_branch_name_blacklist%"
+            additional_modifiers: ''
         git_blacklist:
             keywords:
                 - "die("
+                - "die;"
                 - "var_dump("
                 - "dump("
-            whitelist_patterns:
-                - /^src\/(.*)/
+                - "dd("
+            whitelist_patterns: "%convention.whitelist_patterns%"
             triggered_by: ['php']
-            regexp_type: G
         phpcs:
-            standard: "vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/"
-            whitelist_patterns:
-                - /^src\/(.*)/
+            whitelist_patterns: "%convention.whitelist_patterns%"
+            standard: "%convention.phpcs_standard%"
+            warning_severity: 0
             ignore_patterns: [./src/DataFixtures, ./src/Migrations/*, ./src/Kernel.php]
-        phpmd:
-            whitelist_patterns:
-                - /^src\/(.*)/
-            exclude: [Kernel.php, DataFixtures/*, Migrations/*]
-            ruleset: ['phpmd/ruleset.xml']
-            triggered_by: ['php']
-        phpmnd:
-            directory: .
-            whitelist_patterns:
-                - /^src\/(.*)/
-            exclude: []
-            exclude_name: []
-            exclude_path: [/^var\/cache\/(.*)/]
-            extensions: []
-            hint: false
-            ignore_funcs: []
-            ignore_numbers: []
-            ignore_strings: []
-            strings: false
-            triggered_by: ['php']
-        phpversion:
-            project: '7.3'
-        yamllint:
-            whitelist_patterns: []
-            ignore_patterns: []
-            object_support: false
-            exception_on_invalid_type: false
-            parse_constant: false
-            parse_custom_tags: false
+#        phpmnd:
+#            directory: .
+#            whitelist_patterns: "%convention.whitelist_patterns%"
+#            exclude: []
+#            exclude_name: []
+#            exclude_path: [/^var\/cache\/(.*)/]
+#            extensions: []
+#            hint: false
+#            ignore_funcs: []
+#            ignore_numbers: []
+#            ignore_strings: []
+#            strings: false
+#            triggered_by: ['php']
+#        phpversion:
+#            project: '7.3'
+#        yamllint:
+#            whitelist_patterns: "%convention.whitelist_patterns%"
+#            ignore_patterns: []
+#            object_support: false
+#            exception_on_invalid_type: false
+#            parse_constant: false
+#            parse_custom_tags: false

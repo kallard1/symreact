@@ -14,13 +14,11 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Class CustomerSubscriber
- *
- * @package App\EventSubscriber
  */
 class CustomerSubscriber implements EventSubscriberInterface
 {
-    /** @var Security $security */
-    private $security;
+    /** @var Security $_security */
+    private $_security;
 
     /**
      * CustomerSubscriber constructor.
@@ -30,7 +28,7 @@ class CustomerSubscriber implements EventSubscriberInterface
     public function __construct(
         Security $security
     ) {
-        $this->security = $security;
+        $this->_security = $security;
     }
 
     /**
@@ -46,9 +44,11 @@ class CustomerSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Set user into customer.
+     * Description setUser function
      *
      * @param ViewEvent $event
+     *
+     * @return void
      */
     public function setUser(ViewEvent $event)
     {
@@ -59,7 +59,7 @@ class CustomerSubscriber implements EventSubscriberInterface
 
         if ($customer instanceof Customer && $method === 'POST') {
             /** @var User $user */
-            $user = $this->security->getUser();
+            $user = $this->_security->getUser();
 
             $customer->setUser($user);
         }

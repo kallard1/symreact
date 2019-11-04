@@ -13,15 +13,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserSubscriber
- *
- * @package App\EventSubscriber
  */
 class UserSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var UserPasswordEncoderInterface $encoder
+     * @var UserPasswordEncoderInterface $_encoder
      */
-    private $encoder;
+    private $_encoder;
 
     /**
      * UserSubscriber constructor.
@@ -31,7 +29,7 @@ class UserSubscriber implements EventSubscriberInterface
     public function __construct(
         UserPasswordEncoderInterface $encoder
     ) {
-        $this->encoder = $encoder;
+        $this->_encoder = $encoder;
     }
 
     /**
@@ -47,7 +45,11 @@ class UserSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * Description encodePassword function
+     *
      * @param ViewEvent $event
+     *
+     * @return void
      */
     public function encodePassword(ViewEvent $event)
     {
@@ -58,7 +60,7 @@ class UserSubscriber implements EventSubscriberInterface
 
         if ($user instanceof User && $method === 'POST') {
             /** @var string $hash */
-            $hash = $this->encoder->encodePassword($user, $user->getPassword());
+            $hash = $this->_encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
         }
     }

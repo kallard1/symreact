@@ -9,13 +9,13 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
 /**
  * Class JwtCreatedSubscriber
- *
- * @package App\EventSubscriber
  */
 class JwtCreatedSubscriber
 {
     /**
      * @param JWTCreatedEvent $event
+     *
+     * @return void
      */
     public function onJWTCreated(JWTCreatedEvent $event)
     {

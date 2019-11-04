@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -23,6 +25,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -32,6 +36,8 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var string $email
+     *
      * @ORM\Column(type="string", length=180, unique=true)
      *
      * @Groups({"customers_read", "users_read"})
@@ -42,12 +48,15 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @var mixed[] $roles
+     *
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
+     *
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank
@@ -55,6 +64,8 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var string $firstName
+     *
      * @ORM\Column(type="string", length=50)
      *
      * @Groups({"customers_read", "users_read"})
@@ -65,6 +76,8 @@ class User implements UserInterface
     private $firstName;
 
     /**
+     * @var string $lastName
+     *
      * @ORM\Column(type="string", length=50)
      *
      * @Groups({"customers_read", "users_read"})
@@ -75,36 +88,50 @@ class User implements UserInterface
     private $lastName;
 
     /**
+     * @var Customer[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true)
      */
     private $customers;
 
     /**
+     * @var Company[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="user", orphanRemoval=true)
      */
     private $companies;
 
     /**
+     * @var Category[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="user")
      */
     private $categories;
 
     /**
+     * @var Product[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="user", orphanRemoval=true)
      */
     private $products;
 
     /**
+     * @var Status[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Status", mappedBy="user", orphanRemoval=true)
      */
     private $statuses;
 
     /**
+     * @var Invoice[]|ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="user")
      */
     private $invoices;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      */
     private $invoiceCounter = 0;
@@ -157,9 +184,7 @@ class User implements UserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+     * Description getUsername function
      *
      * @return string
      */
@@ -169,7 +194,7 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * Description getRoles function
      *
      * @return mixed[]
      */
@@ -185,7 +210,7 @@ class User implements UserInterface
     /**
      * Description setRoles function
      *
-     * @param array $roles
+     * @param mixed[] $roles
      *
      * @return $this
      */
@@ -197,7 +222,7 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * Description getPassword function
      *
      * @return string
      */
@@ -221,7 +246,9 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * Description getSalt function
+     *
+     * @return string|void|null
      */
     public function getSalt()
     {
@@ -229,9 +256,11 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * Description eraseCredentials function
+     *
+     * @return void
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
@@ -286,7 +315,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Customer[]
+     * Description getCustomers function
+     *
+     * @return Collection
      */
     public function getCustomers(): Collection
     {
@@ -294,6 +325,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description addCustomer function
+     *
      * @param Customer $customer
      *
      * @return $this
@@ -309,6 +342,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description removeCustomer function
+     *
      * @param Customer $customer
      *
      * @return $this
@@ -327,7 +362,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Company[]
+     * Description getCompanies function
+     *
+     * @return Collection
      */
     public function getCompanies(): Collection
     {
@@ -335,6 +372,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description addCompany function
+     *
      * @param Company $company
      *
      * @return $this
@@ -350,6 +389,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description removeCompany function
+     *
      * @param Company $company
      *
      * @return $this
@@ -368,7 +409,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Category[]
+     * Description getCategories function
+     *
+     * @return Collection
      */
     public function getCategories(): Collection
     {
@@ -376,6 +419,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description addCategory function
+     *
      * @param Category $category
      *
      * @return $this
@@ -391,6 +436,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description removeCategory function
+     *
      * @param Category $category
      *
      * @return $this
@@ -409,7 +456,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Product[]
+     * Description getProducts function
+     *
+     * @return Collection
      */
     public function getProducts(): Collection
     {
@@ -417,6 +466,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description addProduct function
+     *
      * @param Product $product
      *
      * @return $this
@@ -432,6 +483,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description removeProduct function
+     *
      * @param Product $product
      *
      * @return $this
@@ -450,7 +503,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Status[]
+     * Description getStatuses function
+     *
+     * @return Collection
      */
     public function getStatuses(): Collection
     {
@@ -458,6 +513,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description addStatus function
+     *
      * @param Status $status
      *
      * @return $this
@@ -473,6 +530,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description removeStatus function
+     *
      * @param Status $status
      *
      * @return $this
@@ -491,7 +550,9 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Invoice[]
+     * Description getInvoices function
+     *
+     * @return Collection
      */
     public function getInvoices(): Collection
     {
@@ -499,6 +560,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description addInvoice function
+     *
      * @param Invoice $invoice
      *
      * @return $this
@@ -514,6 +577,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description removeInvoice function
+     *
      * @param Invoice $invoice
      *
      * @return $this
@@ -532,6 +597,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description getInvoiceCounter function
+     *
      * @return int|null
      */
     public function getInvoiceCounter(): ?int
@@ -540,6 +607,8 @@ class User implements UserInterface
     }
 
     /**
+     * Description setInvoiceCounter function
+     *
      * @param int $invoiceCounter
      *
      * @return $this

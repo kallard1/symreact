@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,6 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Invoice
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -33,6 +38,8 @@ class Invoice
     private $id;
 
     /**
+     * @var int $count
+     *
      * @ORM\Column(type="string", length=6)
      *
      * @Groups({"invoices_subresource"})
@@ -43,6 +50,8 @@ class Invoice
     private $count;
 
     /**
+     * @var Product[]|ArrayCollection $products
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\Product")
      *
      * @Groups({"invoices_subresource"})
@@ -50,6 +59,8 @@ class Invoice
     private $products;
 
     /**
+     * @var Customer $customer
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="invoices")
      *
      * @Assert\NotNull()
@@ -57,6 +68,8 @@ class Invoice
     private $customer;
 
     /**
+     * @var Status $status
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Status")
      * @ORM\JoinColumn(nullable=false)
      *
@@ -67,6 +80,8 @@ class Invoice
     private $status;
 
     /**
+     * @var DateTime $createdAt
+     *
      * @ORM\Column(type="datetime")
      *
      * @Groups({"invoices_subresource"})
@@ -74,6 +89,8 @@ class Invoice
     private $createdAt;
 
     /**
+     * @var DateTime $createdAt
+     *
      * @ORM\Column(type="datetime")
      *
      * @Groups({"invoices_subresource"})
@@ -81,6 +98,8 @@ class Invoice
     private $updatedAt;
 
     /**
+     * @var DateTime $createdAt
+     *
      * @ORM\Column(type="datetime", nullable=true)
      *
      * @Groups({"invoices_subresource"})
@@ -90,6 +109,8 @@ class Invoice
     private $sentAt;
 
     /**
+     * @var User $user
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="invoices")
      *
      * @Assert\NotNull()
@@ -105,6 +126,8 @@ class Invoice
     }
 
     /**
+     * Description getId function
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -113,6 +136,8 @@ class Invoice
     }
 
     /**
+     * Description getCount function
+     *
      * @return string|null
      */
     public function getCount(): ?string
@@ -121,6 +146,8 @@ class Invoice
     }
 
     /**
+     * Description setCount function
+     *
      * @param string $count
      *
      * @return $this
@@ -133,7 +160,9 @@ class Invoice
     }
 
     /**
-     * @return Collection|Product[]
+     * Description getProducts function
+     *
+     * @return Collection
      */
     public function getProducts(): Collection
     {
@@ -141,6 +170,8 @@ class Invoice
     }
 
     /**
+     * Description addProduct function
+     *
      * @param Product $product
      *
      * @return $this
@@ -155,6 +186,8 @@ class Invoice
     }
 
     /**
+     * Description removeProduct function
+     *
      * @param Product $product
      *
      * @return $this
@@ -169,6 +202,8 @@ class Invoice
     }
 
     /**
+     * Description getCustomer function
+     *
      * @return Customer|null
      */
     public function getCustomer(): ?Customer
@@ -177,6 +212,8 @@ class Invoice
     }
 
     /**
+     * Description setCustomer function
+     *
      * @param Customer|null $customer
      *
      * @return $this
@@ -189,6 +226,8 @@ class Invoice
     }
 
     /**
+     * Description getStatus function
+     *
      * @return Status|null
      */
     public function getStatus(): ?Status
@@ -197,6 +236,8 @@ class Invoice
     }
 
     /**
+     * Description setStatus function
+     *
      * @param Status|null $status
      *
      * @return $this
@@ -209,6 +250,8 @@ class Invoice
     }
 
     /**
+     * Description getCreatedAt function
+     *
      * @return \DateTimeInterface|null
      */
     public function getCreatedAt(): ?\DateTimeInterface
@@ -217,6 +260,8 @@ class Invoice
     }
 
     /**
+     * Description setCreatedAt function
+     *
      * @param \DateTimeInterface $createdAt
      *
      * @return $this
@@ -229,6 +274,8 @@ class Invoice
     }
 
     /**
+     * Description getUpdatedAt function
+     *
      * @return \DateTimeInterface|null
      */
     public function getUpdatedAt(): ?\DateTimeInterface
@@ -237,6 +284,8 @@ class Invoice
     }
 
     /**
+     * Description setUpdatedAt function
+     *
      * @param \DateTimeInterface $updatedAt
      *
      * @return $this
@@ -249,6 +298,8 @@ class Invoice
     }
 
     /**
+     * Description getSentAt function
+     *
      * @return \DateTimeInterface|null
      */
     public function getSentAt(): ?\DateTimeInterface
@@ -257,6 +308,8 @@ class Invoice
     }
 
     /**
+     * Description setSentAt function
+     *
      * @param \DateTimeInterface|null $sentAt
      *
      * @return $this
@@ -269,6 +322,8 @@ class Invoice
     }
 
     /**
+     * Description getUser function
+     *
      * @return User|null
      */
     public function getUser(): ?User
@@ -277,6 +332,8 @@ class Invoice
     }
 
     /**
+     * Description setUser function
+     *
      * @param User|null $user
      *
      * @return $this

@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\Invoice;
 use App\Entity\User;
 use DateTime;
+use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -13,13 +16,11 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Class InvoiceSubscriber
- *
- * @package App\EventSubscriber
  */
 class InvoiceSubscriber implements EventSubscriberInterface
 {
-    /** @var Security $security */
-    private $security;
+    /** @var Security $_security */
+    private $_security;
 
     /**
      * InvoiceSubscriber constructor.
@@ -29,7 +30,7 @@ class InvoiceSubscriber implements EventSubscriberInterface
     public function __construct(
         Security $security
     ) {
-        $this->security = $security;
+        $this->_security = $security;
     }
 
     /**
@@ -53,6 +54,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
      * Increment invoice number.
      *
      * @param ViewEvent $event
+     *
+     * @return void
      */
     public function setCount(ViewEvent $event)
     {
@@ -61,13 +64,13 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
         /** @var User $user */
-        $user = $this->security->getUser();
+        $user = $this->_security->getUser();
 
         if ($invoice instanceof Invoice && $method === 'POST') {
             /** @var integer $count */
             $count = $user->getInvoiceCounter() + 1;
             /** @var string $invoiceNumber */
-            $invoiceNumber = str_pad((string) $count, 5, '0', STR_PAD_LEFT);
+            $invoiceNumber = str_pad((string)$count, 5, '0', STR_PAD_LEFT);
 
             $invoice->setCount('I' . $invoiceNumber);
             $user->setInvoiceCounter($count);
@@ -78,6 +81,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
      * Set user invoice
      *
      * @param ViewEvent $event
+     *
+     * @return void
      */
     public function setUser(ViewEvent $event)
     {
@@ -86,7 +91,7 @@ class InvoiceSubscriber implements EventSubscriberInterface
         /** @var string $method */
         $method = $event->getRequest()->getMethod();
         /** @var User $user */
-        $user = $this->security->getUser();
+        $user = $this->_security->getUser();
 
         if ($invoice instanceof Invoice && $method === 'POST') {
             $invoice->setUser($user);
@@ -96,7 +101,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
     /**
      * @param ViewEvent $event
      *
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
     public function setCreatedAt(ViewEvent $event)
     {
@@ -113,7 +119,8 @@ class InvoiceSubscriber implements EventSubscriberInterface
     /**
      * @param ViewEvent $event
      *
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
     public function setUpdatedAt(ViewEvent $event)
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -15,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Company
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,17 +26,23 @@ class Company
     private $id;
 
     /**
+     * @var string $name
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @var User $user
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="companies")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * @var Customer[]|ArrayCollection $customers
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="company", orphanRemoval=true)
      */
     private $customers;

@@ -11,7 +11,6 @@ use App\Entity\Customer;
 use App\Entity\Invoice;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -46,10 +45,14 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
     }
 
     /**
+     * Description applyToCollection function
+     *
      * @param QueryBuilder                $queryBuilder
      * @param QueryNameGeneratorInterface $queryNameGenerator
      * @param string                      $resourceClass
      * @param string|null                 $operationName
+     *
+     * @return void
      */
     public function applyToCollection(
         QueryBuilder $queryBuilder,
@@ -61,15 +64,18 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
     }
 
     /**
+     * Description applyToItem function
+     *
      * @param QueryBuilder                $queryBuilder
      * @param QueryNameGeneratorInterface $queryNameGenerator
      * @param string                      $resourceClass
-     * @param mixed[]                     $identifiers
+     * @param array                       $identifiers
      * @param string|null                 $operationName
-     * @param mixed[]                     $context
+     * @param array                       $context
+     *
+     * @return void
      */
-    public
-    function applyToItem(
+    public function applyToItem(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
@@ -80,6 +86,14 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
+    /**
+     * Description addWhere function
+     *
+     * @param QueryBuilder $queryBuilder
+     * @param string       $resourceClass
+     *
+     * @return void
+     */
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
     {
         /** @var User $user */

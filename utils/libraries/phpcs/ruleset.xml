@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+
+<ruleset name="Ara42-SF4">
+    <description>Symfony 4 extension ruleset based on PSR-12 but modified for Symfony 4</description>
+    <rule ref="PSR2">
+        <!-- Handle line length in a different rule -->
+        <exclude name="Generic.Files.LineLength" />
+    </rule>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="200" />
+            <property name="absoluteLineLimit" value="0" />
+        </properties>
+    </rule>
+
+    <!-- relative path from PHPCS source location -->
+    <config name="installed_paths" value="vendor/slevomat/coding-standard" />
+    <!-- specific sniffs to include -->
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/TypeHintDeclarationSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/LongTypeHintsSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/NullTypeHintOnLastPositionSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/ReturnTypeHintSpacingSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/NullableTypeForNullDefaultValueSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/ParameterTypeHintSpacingSniff.php" />
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/PHP/TypeCastSniff.php" />
+
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="newlinesCountBetweenOpenTagAndDeclare" value="2" />
+            <property name="newlinesCountAfterDeclare" value="2" />
+            <property name="spacesCountAroundEqualsSign" value="0" />
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Commenting.DocComment">
+        <exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
+        <exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
+        <exclude name="Generic.Commenting.DocComment.MissingShort" /> <!-- Functions have description but variables have not -->
+        <exclude name="Generic.Commenting.DocComment.SpacingBeforeTags" />
+    </rule>
+
+    <rule ref="Generic.Classes.DuplicateClassName" />
+    <rule ref="Generic.CodeAnalysis.EmptyStatement" />
+    <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop" />
+    <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall" />
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer" />
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement" />
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier" />
+    <!--<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>--> <!-- Overrided functions may have parameters not used -->
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod" />
+    <rule ref="Generic.Commenting.Fixme" />
+    <!--<rule ref="Generic.Commenting.Todo"/>-->
+    <rule ref="Generic.Files.ByteOrderMark" />
+    <rule ref="Generic.Files.OneClassPerFile" />
+    <rule ref="Generic.Files.OneInterfacePerFile" />
+    <rule ref="Generic.Functions.CallTimePassByReference" />
+    <rule ref="Generic.Metrics.CyclomaticComplexity" />
+    <rule ref="Generic.Metrics.NestingLevel" />
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag">
+        <exclude-pattern>*.phtml</exclude-pattern>
+    </rule>
+    <rule ref="Generic.PHP.DeprecatedFunctions" />
+    <rule ref="Generic.PHP.NoSilencedErrors" />
+    <rule ref="Generic.PHP.Syntax" />
+    <rule ref="Generic.PHP.DisallowAlternativePHPTags" />
+    <rule ref="Generic.PHP.LowerCaseType" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
+
+    <rule ref="Generic.Files.EndFileNewline" />
+    <rule ref="Generic.Files.InlineHTML" />
+    <rule ref="Generic.Files.OneTraitPerFile" />
+    <rule ref="Generic.Formatting.DisallowMultipleStatements" />
+    <rule ref="Generic.Formatting.MultipleStatementAlignment" />
+    <rule ref="Generic.Strings.UnnecessaryStringConcat" />
+
+    <rule ref="Squiz.Functions.GlobalFunction" />
+    <rule ref="Squiz.Operators.IncrementDecrementUsage" />
+    <rule ref="Squiz.PHP.DiscouragedFunctions" />
+    <rule ref="Squiz.PHP.Eval" />
+    <rule ref="Squiz.PHP.GlobalKeyword" />
+    <rule ref="Squiz.PHP.NonExecutableCode" />
+    <rule ref="Squiz.Scope.MethodScope" />
+    <rule ref="Squiz.Scope.MemberVarScope" />
+    <rule ref="Squiz.Commenting.VariableComment" />
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
+
+    <rule ref="PEAR">
+        <!-- Handle line length in a different rule -->
+        <exclude name="PEAR.Commenting.ClassComment"></exclude>
+    </rule>
+
+    <!--    <config name="installed_paths" value="vendor/escapestudios/symfony2-coding-standard/Symfony" />-->
+    <!--    <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony/Sniffs/Commenting/ClassCommentSniff.php" />-->
+
+    <!--    <rule ref="PEAR.Commenting.FileComment">-->
+    <!--        <exclude name="PEAR.Commenting.FileComment.Missing"></exclude>-->
+    <!--    </rule>-->
+    <!--    <rule ref="PEAR.Commenting.FunctionComment">-->
+    <!--        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment"></exclude>-->
+    <!--    </rule>-->
+    <!--    <rule ref="PEAR.Commenting.InlineComment" />-->
+
+    <!--    <rule ref="PSR2.ControlStructures.ControlStructureSpacing" />-->
+    <!--    <rule ref="PSR2.Methods.MethodDeclaration" />-->
+    <!--    <rule ref="PSR2.Classes.PropertyDeclaration" />-->
+
+    <rule ref="Zend.NamingConventions.ValidVariableName">
+        <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+    </rule>
+
+    <!--    <rule ref="Zend.Files.ClosingTag">-->
+    <!--        <exclude-pattern>*.phtml</exclude-pattern>-->
+    <!--    </rule>-->
+</ruleset>

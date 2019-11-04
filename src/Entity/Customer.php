@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -30,6 +32,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Customer
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -37,6 +41,8 @@ class Customer
     private $id;
 
     /**
+     * @var string $firstName
+     *
      * @ORM\Column(type="string", length=50)
      *
      * @Groups({"customers_read"})
@@ -47,6 +53,8 @@ class Customer
     private $firstName;
 
     /**
+     * @var string $lastName
+     *
      * @ORM\Column(type="string", length=50)
      *
      * @Groups({"customers_read"})
@@ -57,6 +65,8 @@ class Customer
     private $lastName;
 
     /**
+     * @var string $email
+     *
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"customers_read"})
@@ -67,6 +77,8 @@ class Customer
     private $email;
 
     /**
+     * @var User $user
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      *
@@ -77,6 +89,8 @@ class Customer
     private $user;
 
     /**
+     * @var Company $company
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="customers")
      * @ORM\JoinColumn(nullable=false)
      *
@@ -85,6 +99,8 @@ class Customer
     private $company;
 
     /**
+     * @var Invoice[]|ArrayCollection $invoices
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer")
      *
      * @ApiSubresource()

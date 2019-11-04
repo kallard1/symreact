@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -15,6 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Category
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,21 +26,29 @@ class Category
     private $id;
 
     /**
+     * @var string $label
+     *
      * @ORM\Column(type="string", length=25)
      */
     private $label;
 
     /**
+     * @var bool $enabled
+     *
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $enabled;
 
     /**
+     * @var User $user
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="categories")
      */
     private $user;
 
     /**
+     * @var Product[]|ArrayCollection $products
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="category")
      */
     private $products;

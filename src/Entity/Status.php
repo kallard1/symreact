@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -13,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Status
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -20,17 +24,23 @@ class Status
     private $id;
 
     /**
+     * @var string $label
+     *
      * @ORM\Column(type="string", length=50)
      */
     private $label;
 
     /**
+     * @var User $user
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="statuses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
+     * Description getId function
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -39,6 +49,8 @@ class Status
     }
 
     /**
+     * Description getLabel function
+     *
      * @return string|null
      */
     public function getLabel(): ?string
@@ -47,6 +59,8 @@ class Status
     }
 
     /**
+     * Description setLabel function
+     *
      * @param string $label
      *
      * @return $this
@@ -59,6 +73,8 @@ class Status
     }
 
     /**
+     * Description getUser function
+     *
      * @return User|null
      */
     public function getUser(): ?User
@@ -67,6 +83,8 @@ class Status
     }
 
     /**
+     * Description setUser function
+     *
      * @param User|null $user
      *
      * @return $this
